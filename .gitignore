@@ -1,0 +1,15 @@
+node_modules
+npm-debug.log
+.avoscloud
+.leancloud
+coverage
+.nyc_output
+dump.rdb
+tmp
+dist
+.env
+*.heapsnapshot
+
+# VIM
+*~
+*.swp
