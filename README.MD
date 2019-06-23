@@ -24,7 +24,7 @@
 3. 在命令行终端里，进入本项目的文件夹，执行```lean switch```命令，切换到自己的云引擎实例
 4. 执行```npm i```安装项目依赖，项目已经配置了cnpm作为安装源，因此无需使用cnpm命令
 5. 运行```lean up```即可
-
+6. 调试方法和一般的LC的云引擎NodeJS应用是一样的。访问```localhost:3001```进行云函数调试；访问```localhost:3000```路由到云引擎根路由上
 
 其他使用方法请参考[LeanCloud的云引擎开发指南](https://leancloud.cn/docs/leanengine_quickstart.html)
 
