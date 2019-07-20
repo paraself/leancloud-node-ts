@@ -13,7 +13,7 @@
 
 **计划的特性：**
 
-- [X] 云函数集成redis缓存,通过安装(leancloud-cloud-decorator)[https://github.com/paraself/leancloud-cloud-decorator]来实现
+- [X] 云函数集成redis缓存,通过安装[leancloud-cloud-decorator](https://github.com/paraself/leancloud-cloud-decorator)来实现
 - [ ] 数据库ORM(功能已写完，已在内部使用，但是易用性需要调整以便能做到开箱即用)
 - [ ] 数据库ORM集成redis缓存(功能已写完，已在内部使用，但是易用性需要调整以便能做到开箱即用)
 
