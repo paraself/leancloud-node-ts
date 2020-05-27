@@ -41,6 +41,7 @@ app && app.listen(PORT, function (err) {
     console.error('Caught exception:', err.stack)
   })
   process.on('unhandledRejection', async function (reason, p) {
-    console.error('Unhandled Rejection at: Promise ', p, ' reason: ', reason.stack)
+    // @ts-ignore
+    console.error('Unhandled Rejection at: Promise ', p, ' reason: ', reason && reason.stack || 'unknown')
   })
 })
