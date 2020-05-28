@@ -2,22 +2,94 @@
 
 帮助大家快速在LeanCloud的云引擎上构建起TypeScript的开发环境
 
-**已经支持的特性：**
 
-- 默认express框架
-- cors跨域请求配置
-- helmet安全防护
-- 客户端ip获取
-- sourcemap支持
-- xss攻击防范
 
-**计划的特性：**
+### 已经支持的特性 ###
 
-- [X] 云函数集成redis缓存,通过安装[leancloud-cloud-decorator](https://github.com/paraself/leancloud-cloud-decorator)来实现
-- [ ] 数据库ORM(功能已写完，已在内部使用，但是易用性需要调整以便能做到开箱即用)
-- [ ] 数据库ORM集成redis缓存(功能已写完，已在内部使用，但是易用性需要调整以便能做到开箱即用)
+**1. 默认express框架**
 
-**使用步骤:**
+**2. cors跨域请求配置**
+
+通过`cors`模块实现，在`app.ts`文件中配置跨域。
+
+``` ts
+// 在这里开启cors跨域设置，设置自己的域名白名单，和需要跨域的方法
+app.use(cors({
+  // origin: [
+  //   'http://localhost:52153'
+  // ],
+  // methods: ['POST', 'OPTIONS', 'GET']
+}))
+```
+
+**3. helmet安全防护**
+
+通过`helmet`模块实现
+
+**4. 客户端ip获取**
+
+通过`request-ip`实现，具体用法：
+``` ts
+app.use(function(req, res) {
+  const ip = req.clientIp;
+  res.end(ip);
+});
+```
+**5. sourcemap支持**
+
+通过`source-map-support`模块实现
+
+**6. xss攻击防范**
+
+通过`xss-clean`实现
+
+
+
+### 增强特性 ###
+
+本仓库只提供基本的云引擎TS环境的搭建。相对于[官方提供的云引擎开发方式](https://leancloud.cn/docs/leanengine_cloudfunction_guide-node.html), 我们通过另外一个仓库[leancloud-cloud-decorator](https://github.com/paraself/leancloud-cloud-decorator)提供了更丰富的增强特性：
+
+- [x] 云函数集成redis缓存
+
+  可以将一些对数据实时性不敏感的接口内容，缓存在redis中，当前端访问云函数的时候，直接读取redis里的内容，加快访问速度。例如，1小时更新一次的排行榜。通过安装[leancloud-cloud-decorator](https://github.com/paraself/leancloud-cloud-decorator)来实现。
+
+- [x] 云函数参数校验
+
+  接口参数校验，或者云函数参数校验，是业务中很重要的一块，可以有效杜绝前端传入的数据不规范，恶意的接口参数碰撞等行为。通过将`joi`集成到云函数装饰器中，实现该特性。
+
+- [x] 云函数发布前端SDK
+
+  后端在云函数创建的时候定义好参数以及返回值类型之后，可以一键将类型以及API wrapper代码，发布成前端环境可用的SDK。这样前端就可以在使用云函数API SDK的时候，通过VSCode的代码提示，清楚的知道接口的参数含义，以及接口返回值的schema。目前支持web/小程序/dart。
+
+- [x] 云函数限流、防抖
+
+  对于一些Post类的云函数，可以设定在Post没有结束的时候进行防抖。同时针对一些敏感云函数，可以设置限流。
+
+
+
+### 其他计划中的特性 ###
+
+现有的工作流程其实有很多还可以改进的地方，我们会在实践中持续提出新的想法：
+
+- [ ] 数据库ORM
+
+  LC在利用SDK操作数据库的时候，失去了数据库的字段类型。我们通过ORM组件，利用shema的接口，可以一次性在ts编译时生成全部数据库的类型，并发布成NodeJS环境可以使用的sdk。并在其中加入一层redis缓存。这样可以将对一致性要求比较低的数据，先操作缓存层，然后再以特定的周期，或者特定的事件，比如redis key过期，再写入脏数据到数据库，能够有效降低数据库的API访问次数。（目前已经写完，已在内部使用，还需要持续优化才能开箱即用）
+
+- [ ] 可视化编程
+
+  可以将路由以组件的形式进行可视化拼装，以实现用户常见的微信支付，支付宝支付，海报生成，小程序客户接口，带参转发，语音识别等功能
+
+- [ ] 云引擎风控系统
+
+  一个轻量化的云引擎风险识别+风险解决框架。已在内部使用。
+
+- [ ] 云引擎监控系统
+
+  已在内部使用
+
+
+
+### 使用步骤 ###
 
 1. 确保已经安装了[Lean Cli命令行工具](https://leancloud.cn/docs/leanengine_cli.html)
 2. 先下载本仓库，或者fork到本地
@@ -29,7 +101,9 @@
 
 其他使用方法请参考[LeanCloud的云引擎开发指南](https://leancloud.cn/docs/leanengine_quickstart.html)
 
-**Node版本**
+
+
+### Node版本 ###
 
 目前使用的是[NodeJS 12.17.x LTS版](https://nodejs.org/en/)。如需使用其他版本的NodeJS，请修改`package.json`里的`engine`键。
 ``` json
@@ -40,6 +114,6 @@
 ```
 以及安装对应版本的`@types/node`模块。
 
-**FAQ**
+### FAQ ###
 1. 为什么把`@types/xxxx`安装到了生产依赖？
 因为LeanCloud在构建的时候，只安装生产依赖，不安装开发依赖。而构建的时候，需要使用一些来自`@types/xxx`里的类型。
