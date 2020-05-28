@@ -30,6 +30,7 @@
 其他使用方法请参考[LeanCloud的云引擎开发指南](https://leancloud.cn/docs/leanengine_quickstart.html)
 
 **Node版本**
+
 目前使用的是[NodeJS 12.17.x LTS版](https://nodejs.org/en/)。如需使用其他版本的NodeJS，请修改`package.json`里的`engine`键。
 ``` json
 "engines": {
