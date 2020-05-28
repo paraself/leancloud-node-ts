@@ -117,3 +117,14 @@ app.use(function(req, res) {
 ### FAQ ###
 1. 为什么把`@types/xxxx`安装到了生产依赖？
 因为LeanCloud在构建的时候，只安装生产依赖，不安装开发依赖。而构建的时候，需要使用一些来自`@types/xxx`里的类型。
+
+2. 如何安装私有模块
+私有模块一般需要设置项目根目录下的`.npmrc`文件，在里面配置私有registry，形式如下。
+``` yml
+//registry.npmjs.org/:_authToken=${NPM_TOKEN}
+```
+其中`NPM_TOKEN`是一个环境变量，如果用的是官方NPM私有模块的话，可以在NPM官网里的tokens设置，生成一个专用的云引擎构建用的token。如果是其他的私有源，生成TOKEN这里的原理类似。把这个token设置到云引擎的控制台里的环境变量设置中。然后关键的一步是，需要在项目的根目录下，放一个`leanengine.yaml`，里面加上:
+``` yml
+exposeEnvironmentsOnBuild: true
+```
+这样，云引擎在构建的时候，就可以拿到环境变量了。私有依赖就都可以装上了。
