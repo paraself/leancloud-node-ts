@@ -115,10 +115,13 @@ app.use(function(req, res) {
 以及安装对应版本的`@types/node`模块。
 
 ### FAQ ###
-1. 为什么把`@types/xxxx`安装到了生产依赖？
+
+**1. 为什么把`@types/xxxx`安装到了生产依赖？**
+
 因为LeanCloud在构建的时候，只安装生产依赖，不安装开发依赖。而构建的时候，需要使用一些来自`@types/xxx`里的类型。
 
-2. 如何安装私有模块
+**2. 如何安装私有模块**
+  
 私有模块一般需要设置项目根目录下的`.npmrc`文件，在里面配置私有registry，形式如下。
 ``` yml
 //registry.npmjs.org/:_authToken=${NPM_TOKEN}
